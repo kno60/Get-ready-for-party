@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Get ready for Seita's birthday party</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      user-select: none;
+      -webkit-user-select: none;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: #2b2b2b;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+      touch-action: manipulation;
+    }
+    #game-container {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      max-width: 450px;
+      max-height: 900px;
+      background: #fdf6ec;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 0 20px rgba(0,0,0,0.3);
+    }
+    /* 頂部進度條區塊 */
+    header {
+      padding: 15px;
+      background: #ffe3e8;
+      text-align: center;
+      border-bottom: 2px solid #ffb6c1;
+    }
+    h1 {
+      font-size: 16px;
+      color: #d8597c;
+      margin-bottom: 6px;
+    }
+    .status {
+      font-size: 14px;
+      font-weight: bold;
+      color: #555;
+    }
+    /* 房間主畫面 */
+    #room {
+      flex: 1;
+      position: relative;
+      background: #f0f4f8;
+      background-size: cover;
+      background-position: center;
+    }
+    /* 可互動元素基本樣式 */
+    .interactive-item {
+      position: absolute;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      transition: transform 0.2s;
+    }
+    .interactive-item:active {
+      transform: scale(0.9);
+    }
+    /* 房間內各物件位置設定 (可依實際美術圖替換) */
+    #door { top: 30%; left: 38%; width: 90px; height: 160px; background: #cbb49d; border: 3px solid #8b5a2b; border-radius: 4px; z-index: 1; text-align: center; line-height: 160px; font-weight: bold; color: #fff; }
+    #item-cake { top: 65%; left: 15%; }
+    #item-letter { top: 70%; left: 70%; }
+    #item-hat { top: 15%; left: 75%; }
+    #item-gift { top: 75%; left: 45%; }
+    #item-popper { top: 20%; left: 15%; }
+    #item-lightstick { top: 50%; left: 80%; }
+    #item-invitation { top: 45%; left: 10%; }
+
+    /* 底部物品欄 */
+    #inventory {
+      height: 90px;
+      background: #ffffff;
+      border-top: 2px solid #e2e8f0;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      padding: 0 10px;
+    }
+    .slot {
+      width: 44px;
+      height: 44px;
+      border: 2px dashed #cbd5e1;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      background: #f8fafc;
+      opacity: 0.4;
+    }
+    .slot.collected {
+      opacity: 1;
+      border: 2px solid #ff8fa3;
+      background: #fff0f3;
+      animation: pop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    /* 慶生動畫彈窗 */
+    #ending-modal {
+      display: none;
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(255, 240, 243, 0.95);
+      z-index: 10;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 20px;
+      animation: fadeIn 0.8s forwards;
+    }
+    .celebrate-title {
+      font-size: 24px;
+      color: #ff477e;
+      margin-bottom: 15px;
+      animation: bounce 1s infinite alternate;
+    }
+    .celebrate-anim {
+      font-size: 60px;
+      margin: 20px 0;
+    }
+    
+    @keyframes pop {
+      0% { transform: scale(0.5); }
+      100% { transform: scale(1); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes bounce {
+      from { transform: translateY(0); }
+      to { transform: translateY(-10px); }
+    }
+  </style>
+</head>
+<body>
+
+<div id="game-container">
+  <header>
+    <h1>Get ready for Seita's birthday party</h1>
+    <div class="status" id="status-text">找到派對必備物品: 0 / 7</div>
+  </header>
+
+  <main id="room">
+    <!-- 房門 -->
+    <div id="door" onclick="tryOpenDoor()">房門</div>
+
+    <!-- 7 樣可點擊收集物品 -->
+    <div class="interactive-item" id="item-cake" onclick="collectItem('cake', '🎂', this)">🎂</div>
+    <div class="interactive-item" id="item-letter" onclick="collectItem('letter', '✉️', this)">✉️</div>
+    <div class="interactive-item" id="item-hat" onclick="collectItem('hat', '🥳', this)">🥳</div>
+    <div class="interactive-item" id="item-gift" onclick="collectItem('gift', '🎁', this)">🎁</div>
+    <div class="interactive-item" id="item-popper" onclick="collectItem('popper', '🎉', this)">🎉</div>
+    <div class="interactive-item" id="item-lightstick" onclick="collectItem('lightstick', '🪄', this)">🪄</div>
+    <div class="interactive-item" id="item-invitation" onclick="collectItem('invitation', '💌', this)">💌</div>
+  </main>
+
+  <!-- 物品欄 7 個 Slot -->
+  <footer id="inventory">
+    <div class="slot" id="slot-cake">🎂</div>
+    <div class="slot" id="slot-letter">✉️</div>
+    <div class="slot" id="slot-hat">🥳</div>
+    <div class="slot" id="slot-gift">🎁</div>
+    <div class="slot" id="slot-popper">🎉</div>
+    <div class="slot" id="slot-lightstick">🪄</div>
+    <div class="slot" id="slot-invitation">💌</div>
+  </footer>
+
+  <!-- 結尾派對動畫層 -->
+  <div id="ending-modal">
+    <div class="celebrate-anim">🎉🎂🥳✨</div>
+    <div class="celebrate-title">Happy Birthday Seita!</div>
+    <p style="color: #666; line-height: 1.6;">你已經準備好所有東西，成功出發前往生日派對囉！</p>
+    <button onclick="location.reload()" style="margin-top: 30px; padding: 10px 20px; background: #ff477e; color: #fff; border: none; border-radius: 20px; font-weight: bold; cursor: pointer;">再玩一次</button>
+  </div>
+</div>
+
+<script>
+  const totalItems = 7;
+  let collectedCount = 0;
+  const collectedSet = new Set();
+
+  function collectItem(id, icon, element) {
+    if (collectedSet.has(id)) return;
+
+    collectedSet.add(id);
+    collectedCount++;
+
+    // 隱藏房間內的物品
+    element.style.display = 'none';
+
+    // 亮起物品欄
+    const slot = document.getElementById(`slot-${id}`);
+    if (slot) {
+      slot.classList.add('collected');
+    }
+
+    // 更新 UI 文字
+    const statusText = document.getElementById('status-text');
+    statusText.innerText = `找到派對必備物品: ${collectedCount} / ${totalItems}`;
+
+    if (collectedCount === totalItems) {
+      statusText.innerText = "物品已集齊！點擊房門前往派對吧！";
+      statusText.style.color = "#ff477e";
+      document.getElementById('door').style.background = '#e0a96d';
+    }
+  }
+
+  function tryOpenDoor() {
+    if (collectedCount < totalItems) {
+      alert(`還沒準備好喔！還缺少 ${totalItems - collectedCount} 件物品才能出門。`);
+    } else {
+      document.getElementById('ending-modal').style.display = 'flex';
+    }
+  }
+</script>
+
+</body>
+</html>
