@@ -136,7 +136,7 @@
     #door {
       position: absolute;
       top: 25%; left: 380px; width: 100px; height: 180px;
-      background: #b892ff; border: 3.5px solid var(--deep-lavender);
+      background: #b892ff;
       border-radius: 6px 6px 0 0; z-index: 2;
       display: flex; flex-direction: column; align-items: center;
       justify-content: center; color: #fff; font-weight: bold;
@@ -150,6 +150,7 @@
     }
     #door.ready {
       background: #9d4edd;
+      background-image: url('./door.jpg'); 
       box-shadow: 0 0 20px var(--accent-pink);
       animation: pulse 1.5s infinite;
     }
@@ -286,9 +287,7 @@
     <div id="room-scene">
 
       <!-- 房門 (中央) -->
-      <div id="door" onclick="tryOpenDoor()">
-        <span>PARTY</span>
-        <div id="door-knob"></div>
+      <div id="door" onclick="tryOpenDoor()"
       </div>
 
       <!-- 7 樣散落各處的尋寶物品 -->
