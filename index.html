@@ -125,12 +125,6 @@
       border-radius: 8px;
     }
 
-    /* 左側區域：衣櫃與窗戶 */
-    #wardrobe {
-      top: 15%; left: 40px; width: 120px; height: 320px;
-      background: #d8bbff; display: flex; flex-direction: column; align-items: center; justify-content: center;
-      color: var(--deep-lavender); font-weight: bold; font-size: 14px;
-    }
 
     /* 中間區域：房門與海報 */
     #door {
@@ -152,24 +146,6 @@
       background: #9d4edd;
       box-shadow: 0 0 20px var(--accent-pink);
       animation: pulse 1.5s infinite;
-    }
-
-    #poster {
-      top: 15%; left: 520px; width: 90px; height: 120px;
-      background: #d8bbff; border: 2px solid #fff;
-      border-radius: 4px; display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      color: var(--deep-lavender); font-weight: bold; font-size: 12px;
-    }
-
-    /* 右側區域：床鋪與書桌 */
-    #bed {
-      bottom: 12%; left: 620px; width: 220px; height: 130px;
-      background: #ffffff; border-radius: 12px 12px 0 0;
-    }
-    #bed-blanket {
-      position: absolute; bottom: 0; width: 100%; height: 75%;
-      background: #d8bbff; border-radius: 10px 10px 0 0;
     }
 
     /* 互動物品 (分佈在房間各處) */
@@ -284,11 +260,6 @@
   <!-- 房間視窗 (支援滑動) -->
   <div id="room-viewport" id="viewport">
     <div id="room-scene">
-      
-      <!-- 傢俱佈景 -->
-      <div id="wardrobe" class="furniture">衣櫃區</div>
-      <div id="poster" class="furniture">SEITA 海報</div>
-      <div id="bed" class="furniture"><div id="bed-blanket"></div></div>
 
       <!-- 房門 (中央) -->
       <div id="door" onclick="tryOpenDoor()">
