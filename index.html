@@ -149,18 +149,26 @@
     }
 
     /* 互動物品 (分佈在房間各處) */
-    .interactive-item {
-      position: absolute;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 32px;
-      transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      z-index: 3;
-    }
-    .interactive-item:active { transform: scale(0.85); }
+.interactive-item {
+  position: absolute;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  z-index: 4;
+}
 
+/* 確保圖片本身不會干擾點擊事件與防止被瀏覽器預設拖曳 */
+.interactive-item img {
+  pointer-events: none; 
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.interactive-item:active { 
+  transform: scale(0.85); 
+}
     /* 提示滑動的小標籤 */
     #swipe-hint {
       position: absolute;
