@@ -275,40 +275,54 @@
       </div>
 
       <!-- 7 樣散落各處的尋寶物品 -->
-      <!-- 1. 蛋糕 (右側床頭) -->
-      <div class="interactive-item" id="item-cake" style="bottom: 32%; left: 780px;" onclick="collectItem('cake', '🎂', this, event)">🎂</div>
+      <!-- 1. 漢堡包-->
+      <div class="interactive-item" id="item-burger" style="bottom: 30%; left: 88px;" onclick="collectItem('burger', this, event)" title="hamburger">
+  <img src="burger.png" alt="Hamburger" style="width: 45px; height: 45px; object-fit: contain;">
+</div>
       
-      <!-- 2. 信件 (左側衣櫃旁) -->
-      <div class="interactive-item" id="item-letter" style="bottom: 20%; left: 180px;" onclick="collectItem('letter', '✉️', this, event)">✉️</div>
+      <!-- 2. 信件 -->
+      <div class="interactive-item" id="item-letter" style="bottom: 30%; left: 88px;" onclick="collectItem('letter', this, event)" title="letter">
+  <img src="letter.png" alt="Letter" style="width: 45px; height: 45px; object-fit: contain;">
+</div>
       
-      <!-- 3. 派對帽 (衣櫃上方) -->
-      <div class="interactive-item" id="item-hat" style="top: 5%; left: 80px;" onclick="collectItem('hat', '🥳', this, event)">🥳</div>
+      <!-- 3. 遊戲手掣 -->
+      <div class="interactive-item" id="item-game" style="bottom: 30%; left: 88px;" onclick="collectItem('game', this, event)" title="game">
+  <img src="controller.png" alt="GameController" style="width: 45px; height: 45px; object-fit: contain;">
+</div>
       
-      <!-- 4. 禮物盒 (床尾) -->
-      <div class="interactive-item" id="item-gift" style="bottom: 15%; left: 650px;" onclick="collectItem('gift', '🎁', this, event)">🎁</div>
+      <!-- 4. 小狗 -->
+      <div class="interactive-item" id="item-puppy" style="bottom: 30%; left: 88px;" onclick="collectItem('puppy', this, event)" title="puppy">
+  <img src="puppy.png" alt="Puppy" style="width: 45px; height: 45px; object-fit: contain;">
+</div>
       
-      <!-- 5. 拉炮 (海報旁) -->
-      <div class="interactive-item" id="item-popper" style="top: 25%; left: 550px;" onclick="collectItem('popper', '🎉', this, event)">🎉</div>
+      <!-- 5. 應援棒 -->
+     <div class="interactive-item" id="item-lightstick" style="bottom: 30%; left: 88px;" onclick="collectItem('lightstick', this, event)" title="lightstick">
+  <img src="lightstick.png" alt="Lightstick" style="width: 45px; height: 45px; object-fit: contain;">
+</div>
       
-      <!-- 6. 應援棒 (中間門口旁) -->
-      <div class="interactive-item" id="item-lightstick" style="top: 45%; left: 320px;" onclick="collectItem('lightstick', '🪄', this, event)">🪄</div>
+      <!-- 6. 抱枕 -->
+    <div class="interactive-item" id="item-seidee" style="bottom: 30%; left: 88px;" onclick="collectItem('seidee', this, event)" title="seidee">
+  <img src="seidee.png" alt="Seidee" style="width: 45px; height: 45px; object-fit: contain;">
+</div>
       
-      <!-- 7. 玩偶 (床上) -->
-      <div class="interactive-item" id="item-nexzoo" style="bottom: 35%; left: 700px;" onclick="collectItem('nexzoo', '🐱', this, event)">🐱</div>
-
+      <!-- 7. 海報 -->
+      <div class="interactive-item" id="item-poster" style="bottom: 30%; left: 88px;" onclick="collectItem('poster', this, event)" title="poster">
+  <img src="poster.png" alt="Poster" style="width: 45px; height: 45px; object-fit: contain;">
+</div>
+      
     </div>
     <div id="swipe-hint">👈 左右滑動探索房間 👉</div>
   </div>
 
   <!-- 底部物品欄 -->
   <footer id="inventory">
-    <div class="slot" id="slot-cake">🎂</div>
+    <div class="slot" id="slot-burger">🎂</div>
     <div class="slot" id="slot-letter">✉️</div>
-    <div class="slot" id="slot-hat">🥳</div>
-    <div class="slot" id="slot-gift">🎁</div>
-    <div class="slot" id="slot-popper">🎉</div>
-    <div class="slot" id="slot-lightstick">🪄</div>
-    <div class="slot" id="slot-nexzoo">🐱</div>
+    <div class="slot" id="slot-game">🥳</div>
+    <div class="slot" id="slot-puppy">🎁</div>
+    <div class="slot" id="slot-lightstick">🎉</div>
+    <div class="slot" id="slot-seidee">🪄</div>
+    <div class="slot" id="slot-poster">🐱</div>
   </footer>
 
   <!-- 結尾彈窗 -->
