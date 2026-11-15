@@ -467,10 +467,6 @@
       <div class="interactive-item" id="item-poster" style="top: 7%; left: 1372px;" onclick="collectItem('poster', this, event)" title="poster">
   <img src="poster.png" alt="Poster" style="width: 201.5px; height: 295.1px; object-fit: contain;">
 </div>
-      
-    </div>
-    <div id="swipe-hint">👈 左右滑動探索房間 👉</div>
-  </div>
 
   <!-- 底部物品欄 -->
   <!-- 底部物品欄 (7個格子) -->
@@ -669,7 +665,7 @@
   const progressFill = document.getElementById('progress-fill');
 
   if (statusText) {
-    statusText.innerText = `搜尋物品: ${collectedCount} / ${totalItems}`;
+    statusText.innerText = `アイテム: ${collectedCount} / ${totalItems}`;
   }
   if (progressFill) {
     progressFill.style.width = `${(collectedCount / totalItems) * 100}%`;
@@ -678,7 +674,7 @@
   // 檢查是否全數收集完畢
   if (collectedCount === totalItems) {
     if (statusText) {
-      statusText.innerText = "集齊了！快去開門吧！";
+      statusText.innerText = "すべてのアイテムが揃いました！ドアを開けてみよう！";
     }
     
     const doorHotspot = document.getElementById('door');
@@ -697,14 +693,14 @@
   function tryOpenDoor() {
     if (collectedCount < totalItems) {
       playSound('pop');
-      alert(`還沒準備好喔！還缺少 ${totalItems - collectedCount} 件物品。`);
+      alert(`必要アイテムが足りません！`);
     } else {
       playSound('collect');
       document.getElementById('ending-modal').style.display = 'flex';
     }
   }
 // 自訂分享文案與指定 Hashtag
-const SHARE_TEXT = "我成功幫 Seita 準備好生日派對物品啦！🎂💜 #HappySeitaDay #SEITA #NEXZ #河嶋星太";
+const SHARE_TEXT = " #セイタの誕生日パーティ大作戦 #세이타의생일파티대작전";
 const CELEBRATE_IMG_URL = "birthday.png"; 
 
 // 1. 分享至 X (Twitter)
