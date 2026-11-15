@@ -294,7 +294,7 @@
 </div>
       
       <!-- 3. 遊戲手掣 -->
-      <div class="interactive-item" id="item-game" style="bottom: -3%; left: 610px;" onclick="collectItem('game', this, event)" title="game">
+      <div class="interactive-item" id="item-controller" style="bottom: -3%; left: 610px;" onclick="collectItem('controller', this, event)" title="game">
   <img src="controller.png" alt="GameController" style="width: 130px; height: 119.6px; object-fit: contain;">
 </div>
       
@@ -334,13 +334,13 @@
   <div class="slot" id="slot-controller">
     <img src="controller_gray.png" alt="未找到手掣" class="slot-img">
   </div>
-  <div class="slot" id="slot-dog">
+  <div class="slot" id="slot-puppy">
     <img src="puppy_gray.png" alt="未找到小狗" class="slot-img">
   </div>
   <div class="slot" id="slot-lightstick">
     <img src="lightstick_gray.png" alt="未找到應援棒" class="slot-img">
   </div>
-  <div class="slot" id="slot-pillow">
+  <div class="slot" id="slot-seidee">
     <img src="seidee_gray.png" alt="未找到抱枕" class="slot-img">
   </div>
   <div class="slot" id="slot-poster">
@@ -460,7 +460,7 @@
   if (slot) {
     slot.classList.add('collected');
     // 動態替換圖片路徑（例如從 burger_gray.png 換成 burger.png）
-    slot.innerHTML = `<img src="images/${id}.png" alt="${id}" class="slot-img">`;
+    slot.innerHTML = `<img src="${id}.png" alt="${id}" class="slot-img">`;
   }
 
   // 3. 更新進度條文字
