@@ -471,7 +471,7 @@
   const slot = document.getElementById(`slot-${id}`);
   if (slot) {
     slot.classList.add('collected');
-    slot.innerHTML = `<img src="images/${id}.png" alt="${id}" class="slot-img">`;
+    slot.innerHTML = `<img src="${id}.png" alt="${id}" class="slot-img">`;
   } else {
     console.warn(`找不到對應的 slot ID: slot-${id}`);
   }
