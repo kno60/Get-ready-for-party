@@ -127,21 +127,22 @@
 
 
     /* 中間區域：房門與海報 */
-#door {
+  #door {
   position: absolute;
   top: 15%;
   left: 820px; 
   width: 200px;
-  height: 400px;
-  background: transparent; /* 設為完全透明，不影響背景圖片展示 */
-  border: none;            /* 確保沒有邊框 */
-  cursor: pointer;         /* 滑鼠移上去時顯示可點擊手勢 */
-  z-index: 3;              /* 確保在背景之上、方便點擊 */
+  height: 420px;
+  cursor: pointer;
+  z-index: 3;
 }
 
-/* 當集齊所有物品、門準備好開啟時的動效（可選） */
-#door.ready {
-  animation: pulse 1.5s infinite;
+.door-style {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none; /* 確保點擊事件能順利傳遞到外層的 hotspot */
+  transition: transform 0.3s ease;
 }
 
     /* 互動物品 (分佈在房間各處) */
