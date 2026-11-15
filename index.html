@@ -363,42 +363,41 @@
   const viewport = document.getElementById('room-viewport');
   const scene = document.getElementById('room-scene');
   
-  let isDragging = false;
-  let startX = 0;
-  let currentX = 0;
-  let targetX = 0;
-  const maxScroll = 900 - window.innerWidth; // 計算最大可滾動寬度 (場景寬度 - 螢幕寬度)
+let isDragging = false;
+let startX = 0;
+let startY = 0;
+let hasMoved = false; // 用來判斷是否有在拖曳
 
-  // 防止畫面超出邊界的限制函式
-  function clamp(val, min, max) {
-    return Math.max(min, Math.min(max, val));
+function dragStart(e) {
+  isDragging = true;
+  hasMoved = false;
+  startX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+  startY = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY;
+}
+
+function dragMove(e) {
+  if (!isDragging) return;
+  const x = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+  const y = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY;
+  
+  // 如果移動距離超過 5 像素，就視為「拖曳背景」，而不是點擊道具
+  if (Math.abs(x - startX) > 5 || Math.abs(y - startY) > 5) {
+    hasMoved = true;
   }
 
-  // 滑鼠 / 觸控開始
-  function dragStart(e) {
-    isDragging = true;
-    startX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
-  }
+  const diff = x - startX;
+  startX = x;
+  
+  currentX += diff;
+  const limitWidth = Math.max(0, scene.offsetWidth - viewport.offsetWidth);
+  currentX = clamp(currentX, -limitWidth, 0);
 
-  // 滑鼠 / 觸控移動
-  function dragMove(e) {
-    if (!isDragging) return;
-    const x = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
-    const diff = x - startX;
-    startX = x;
-    
-    currentX += diff;
-    // 限制滑動範圍在 0 到 -(場景寬度 - 視窗寬度) 之間
-    const limitWidth = Math.max(0, scene.offsetWidth - viewport.offsetWidth);
-    currentX = clamp(currentX, -limitWidth, 0);
+  scene.style.transform = `translateX(${currentX}px)`;
+}
 
-    scene.style.transform = `translateX(${currentX}px)`;
-  }
-
-  // 滑鼠 / 觸控結束
-  function dragEnd() {
-    isDragging = false;
-  }
+function dragEnd() {
+  isDragging = false;
+}
 
   // 綁定事件監聽
   viewport.addEventListener('mousedown', dragStart);
@@ -441,8 +440,12 @@
     }
   }
   function collectItem(id, element, event) {
-  // 如果已經收集過了就直接返回
+  console.log("點擊了道具:", id); // 👈 檢查 F12 有沒有印出這行
+
   if (collectedSet.has(id)) return;
+
+  // 如果在拖曳背景，不觸發道具收集
+  if (hasMoved) return; 
 
   playSound('collect');
   if (event && typeof createParticles === 'function') {
@@ -452,21 +455,21 @@
   collectedSet.add(id);
   collectedCount++;
 
-  // 1. 隱藏房間裡的道具
+  // 隱藏房間裡的道具
   if (element) {
     element.style.display = 'none';
   }
 
-  // 2. 替換底部物品欄的圖片與樣式
+  // 替換底部物品欄圖片
   const slot = document.getElementById(`slot-${id}`);
   if (slot) {
     slot.classList.add('collected');
-    slot.innerHTML = `<img src="${id}.png" alt="${id}" class="slot-img">`;
+    slot.innerHTML = `<img src="images/${id}.png" alt="${id}" class="slot-img">`;
   } else {
     console.warn(`找不到對應的 slot ID: slot-${id}`);
   }
 
-  // 3. 更新進度條與文字
+  // 更新進度條文字
   const statusText = document.getElementById('status-text');
   const progressFill = document.getElementById('progress-fill');
 
@@ -477,7 +480,7 @@
     progressFill.style.width = `${(collectedCount / totalItems) * 100}%`;
   }
 
-  // 4. 檢查是否全數收集完畢
+  // 檢查是否全數收集完畢
   if (collectedCount === totalItems) {
     if (statusText) {
       statusText.innerText = "集齊了！快去開門吧！";
@@ -486,8 +489,8 @@
     if (doorHotspot) {
       doorHotspot.classList.add('ready');
     }
+    }
   }
-
   function tryOpenDoor() {
     if (collectedCount < totalItems) {
       playSound('pop');
