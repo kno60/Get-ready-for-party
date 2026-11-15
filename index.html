@@ -283,32 +283,117 @@
 }
 
     /* 結尾彈窗 */
-    #ending-modal {
-      display: none;
-      position: absolute;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: linear-gradient(135deg, rgba(240, 230, 255, 0.97), rgba(255, 230, 245, 0.97));
-      z-index: 30;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 25px;
-    }
-    .celebrate-title {
-      font-size: 26px;
-      color: var(--deep-lavender);
-      margin: 15px 0 10px;
-      font-weight: 800;
-    }
+/* 結尾慶生彈窗背景遮罩 */
+#ending-modal {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(30, 27, 46, 0.85);
+  backdrop-filter: blur(6px);
+  z-index: 50;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: fadeIn 0.4s ease;
+}
 
-    .particle {
-      position: absolute;
-      pointer-events: none;
-      animation: floatUp 1s ease-out forwards;
-      z-index: 20;
-    }
+.ending-card {
+  background: linear-gradient(180deg, #ffffff 0%, #f7f0ff 100%);
+  border: 3px solid var(--primary-lavender);
+  border-radius: 24px;
+  padding: 20px 18px;
+  width: 100%;
+  max-width: 360px;
+  text-align: center;
+  box-shadow: 0 12px 35px rgba(114, 81, 181, 0.45);
+}
 
+.ending-header {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--deep-lavender);
+  margin-bottom: 12px;
+}
+
+/* 慶生圖片容器 */
+.celebrate-img-box {
+  width: 100%;
+  max-height: 48vh; /* 避免圖片過高擠壓到下方按鈕 */
+  border-radius: 16px;
+  overflow: hidden;
+  border: 2px solid #e6d7ff;
+  background: #faf7ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
+.celebrate-img-box img {
+  width: 100%;
+  height: auto;
+  max-height: 48vh;
+  object-fit: contain;
+  display: block;
+}
+
+.ending-hint {
+  font-size: 11px;
+  color: #7b68a8;
+  margin-bottom: 14px;
+}
+
+/* 按鈕排版與樣式 */
+.ending-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.ending-actions button {
+  width: 100%;
+  padding: 11px 16px;
+  border: none;
+  border-radius: 22px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+.ending-actions button:active {
+  transform: scale(0.96);
+}
+
+/* X 分享按鈕 */
+.btn-share-x {
+  background: #14171a;
+  color: #ffffff;
+  box-shadow: 0 3px 10px rgba(20, 23, 26, 0.25);
+}
+
+/* 小紅書分享按鈕 */
+.btn-share-xhs {
+  background: #ff2442;
+  color: #ffffff;
+  box-shadow: 0 3px 10px rgba(255, 36, 66, 0.3);
+}
+
+/* Play Again 按鈕 */
+.btn-replay {
+  background: linear-gradient(90deg, #b88cff, #7251b5);
+  color: #ffffff;
+  margin-top: 2px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
     @keyframes pop {
       0% { transform: scale(0.3); }
       100% { transform: scale(1); }
@@ -413,12 +498,30 @@
   </div>
 </footer>
 
-  <!-- 結尾彈窗 -->
-  <div id="ending-modal">
-    <div style="font-size: 50px;">💜🎂🪄🥳</div>
-    <div class="celebrate-title">Happy Birthday Seita!</div>
-    <p style="color: #554477; font-size: 14px; padding: 0 10px;">成功找齊所有派對物品，出發前往派對囉！</p>
-    <button onclick="location.reload()" style="margin-top: 25px; padding: 12px 28px; background: #9d4edd; color: #fff; border: none; border-radius: 25px; font-weight: bold; cursor: pointer;">再玩一次</button>
+  <!-- 結尾慶生彈窗 -->
+<div id="ending-modal">
+  <div class="ending-card">
+    <div class="ending-header">Happy Birthday Seita! 🎉</div>
+    
+    <!-- 準備好的慶生圖片 -->
+    <div class="celebrate-img-box">
+      <img id="celebrate-img" src="birthday.png" alt="Happy Birthday Seita">
+    </div>    
+
+    <!-- 按鈕區 -->
+    <div class="ending-actions">
+      <!-- 按鈕 1：分享至小紅書 / X -->
+      <button class="btn-share-x" onclick="shareToX()">
+        分享至 X (Twitter)
+      </button>
+      <button class="btn-share-xhs" onclick="shareToXiaohongshu()">
+        分享至小紅書 (複製Tag並存圖)
+      </button>
+      
+      <!-- 按鈕 2：Play Again -->
+      <button class="btn-replay" onclick="location.reload()">
+        Play Again
+      </button>
   </div>
 </div>
 
@@ -600,6 +703,77 @@
       document.getElementById('ending-modal').style.display = 'flex';
     }
   }
+// 自訂分享文案與指定 Hashtag
+const SHARE_TEXT = "我成功幫 Seita 準備好生日派對物品啦！🎂💜 #HappySeitaDay #SEITA #NEXZ #河嶋星太";
+const CELEBRATE_IMG_URL = "birthday.png"; 
+
+// 1. 分享至 X (Twitter)
+async function shareToX() {
+  // 若手機瀏覽器支援原生檔案分享，優先嘗試直接帶圖呼叫系統分享面板
+  if (navigator.canShare && navigator.share) {
+    try {
+      const response = await fetch(CELEBRATE_IMG_URL);
+      const blob = await response.blob();
+      const file = new File([blob], "Happy_Birthday_Seita.png", { type: blob.type });
+
+      if (navigator.canShare({ files: [file] })) {
+        await navigator.share({
+          text: SHARE_TEXT,
+          files: [file]
+        });
+        return;
+      }
+    } catch (err) {
+      console.log("原生帶圖分享取消或略過，切換至網頁版 X 分享");
+    }
+  }
+
+  // 備用方案：開啟 X 發文視窗並自動帶入文字與 Hashtag（同時附上遊戲網址）
+  const pageUrl = encodeURIComponent(window.location.href);
+  const text = encodeURIComponent(SHARE_TEXT);
+  window.open(`https://twitter.com/intent/tweet?text=${text}&url=${pageUrl}`, "_blank");
+}
+
+// 2. 分享至小紅書（手機系統帶圖分享 / 自動複製文案＋下載圖片）
+async function shareToXiaohongshu() {
+  // 先將帶有 Hashtag 的文案複製到剪貼簿
+  try {
+    await navigator.clipboard.writeText(SHARE_TEXT);
+  } catch (e) {
+    console.warn("剪貼簿複製受限");
+  }
+
+  // 嘗試呼叫手機原生分享面板（iOS/Android 可直接選擇「小紅書」帶圖發布）
+  if (navigator.canShare && navigator.share) {
+    try {
+      const response = await fetch(CELEBRATE_IMG_URL);
+      const blob = await response.blob();
+      const file = new File([blob], "Happy_Birthday_Seita.png", { type: blob.type });
+
+      if (navigator.canShare({ files: [file] })) {
+        alert("文案已複製到剪貼簿");
+        await navigator.share({
+          text: SHARE_TEXT,
+          files: [file]
+        });
+        return;
+      }
+    } catch (err) {
+      console.log("系統分享面板已關閉");
+    }
+  }
+
+  // 桌機或內建瀏覽器備用方案：自動觸發圖片下載並提示
+  const link = document.createElement("a");
+  link.href = CELEBRATE_IMG_URL;
+  link.download = "Happy_Birthday_Seita.png";
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+
+  alert("文案已複製到剪貼簿");
+}
+  
 </script>
 
 </body>
