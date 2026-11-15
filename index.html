@@ -276,9 +276,9 @@
   <div id="room-viewport" id="viewport">
     <div id="room-scene">
 
-<!-- 房門點擊熱區 -->
-<div id="door" style="position: absolute; top: 17%; left: 706px; width: 152px; height: 250px; cursor: pointer; z-index: 3;" onclick="tryOpenDoor()"></div>
-  
+<!-- 房門透明點擊熱區（精準置中於 1586px 背景中央） -->
+<div id="door-hotspot" onclick="tryOpenDoor()" title="door"></div>
+      
       <!-- 7 樣散落各處的尋寶物品 -->
       <!-- 1. 漢堡包-->
       <div class="interactive-item" id="item-burger" style="bottom: 17%; left: 140px;" onclick="collectItem('burger', this, event)" title="burger">
