@@ -155,20 +155,17 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  z-index: 4;
+  z-index: 10; /* 確保層級高於背景與拖曳層 */
+  pointer-events: auto; /* 確保可以接收點擊 */
 }
 
-/* 確保圖片本身不會干擾點擊事件與防止被瀏覽器預設拖曳 */
+/* 確保裡面的圖片不會吃掉點擊事件 */
 .interactive-item img {
   pointer-events: none; 
   user-select: none;
   -webkit-user-drag: none;
 }
 
-.interactive-item:active { 
-  transform: scale(0.85); 
-}
     /* 提示滑動的小標籤 */
     #swipe-hint {
       position: absolute;
