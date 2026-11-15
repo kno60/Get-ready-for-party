@@ -488,12 +488,20 @@
     if (statusText) {
       statusText.innerText = "集齊了！快去開門吧！";
     }
-    const doorHotspot = document.getElementById('door-hotspot');
+    
+    const doorHotspot = document.getElementById('door');
+    const doorImg = document.getElementById('door-img');
+    
     if (doorHotspot) {
       doorHotspot.classList.add('ready');
     }
+    
+    // 🌟 關鍵：集齊後替換成打開或發光後的門圖片
+    if (doorImg) {
+      doorImg.src = 'door_open.png'; 
     }
-  }
+    }
+    }
   function tryOpenDoor() {
     if (collectedCount < totalItems) {
       playSound('pop');
