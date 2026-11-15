@@ -127,26 +127,22 @@
 
 
     /* 中間區域：房門與海報 */
-    #door {
-      position: absolute;
-      top: 25%; left: 380px; width: 100px; height: 180px;
-      background: #b892ff; border: 3.5px solid var(--deep-lavender);
-      border-radius: 6px 6px 0 0; z-index: 2;
-      display: flex; flex-direction: column; align-items: center;
-      justify-content: center; color: #fff; font-weight: bold;
-      cursor: pointer; box-shadow: inset 0 0 15px rgba(0,0,0,0.1);
-      transition: all 0.3s;
-    }
-    #door-knob {
-      position: absolute; right: 12px; top: 50%;
-      width: 12px; height: 12px; background: var(--gold);
-      border-radius: 50%; border: 1px solid #7251b5;
-    }
-    #door.ready {
-      background: #9d4edd;
-      box-shadow: 0 0 20px var(--accent-pink);
-      animation: pulse 3s infinite;
-    }
+#door {
+  position: absolute;
+  top: 17%;
+  left: 718px; 
+  width: 150px;
+  height: 250px;
+  background: #f5e7fe; /* 設為完全透明，不影響背景圖片展示 */
+  border: none;            /* 確保沒有邊框 */
+  cursor: pointer;         /* 滑鼠移上去時顯示可點擊手勢 */
+  z-index: 3;              /* 確保在背景之上、方便點擊 */
+}
+
+/* 當集齊所有物品、門準備好開啟時的動效（可選） */
+#door.ready {
+  animation: pulse 1.5s infinite;
+}
 
     /* 互動物品 (分佈在房間各處) */
 .interactive-item {
@@ -277,7 +273,7 @@
     <div id="room-scene">
 
 <!-- 房門透明點擊熱區（精準置中於 1586px 背景中央） -->
-<div id="door-hotspot" onclick="tryOpenDoor()" title="door"></div>
+<div id="door" onclick="tryOpenDoor()" title="door"></div>
       
       <!-- 7 樣散落各處的尋寶物品 -->
       <!-- 1. 漢堡包-->
