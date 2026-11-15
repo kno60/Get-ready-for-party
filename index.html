@@ -443,26 +443,35 @@
       osc.stop(now + 0.1);
     }
   }
+  function collectItem(id, element, event) {
+  if (collectedSet.has(id)) return;
 
-  function collectItem(id, icon, element, event) {
-    if (collectedSet.has(id)) return;
+  playSound('collect');
+  if (event) createParticles(event.clientX, event.clientY);
 
-    playSound('collect');
-    collectedSet.add(id);
-    collectedCount++;
+  collectedSet.add(id);
+  collectedCount++;
 
-    element.style.display = 'none';
+  // 1. 隱藏房間場景中的道具
+  element.style.display = 'none';
 
-    const slot = document.getElementById(`slot-${id}`);
-    if (slot) slot.classList.add('collected');
+  // 2. 找到底部對應的格子，加上 collected 類別，並將圖片換成彩色版本
+  const slot = document.getElementById(`slot-${id}`);
+  if (slot) {
+    slot.classList.add('collected');
+    // 動態替換圖片路徑（例如從 burger_gray.png 換成 burger.png）
+    slot.innerHTML = `<img src="images/${id}.png" alt="${id}" class="slot-img">`;
+  }
 
-    document.getElementById('status-text').innerText = `搜尋物品: ${collectedCount} / ${totalItems}`;
-    document.getElementById('progress-fill').style.width = `${(collectedCount / totalItems) * 100}%`;
+  // 3. 更新進度條文字
+  document.getElementById('status-text').innerText = `搜尋物品: ${collectedCount} / ${totalItems}`;
+  document.getElementById('progress-fill').style.width = `${(collectedCount / totalItems) * 100}%`;
 
-    if (collectedCount === totalItems) {
-      document.getElementById('status-text').innerText = "集齊了！快去開門吧！";
-      document.getElementById('door').classList.add('ready');
-    }
+  // 4. 檢查是否全部收集完畢
+  if (collectedCount === totalItems) {
+    document.getElementById('status-text').innerText = "集齊了！快去開門吧！";
+    document.getElementById('door-hotspot').classList.add('ready');
+ }
   }
 
   function tryOpenDoor() {
