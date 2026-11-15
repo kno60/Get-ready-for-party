@@ -45,6 +45,80 @@
       box-shadow: 0 0 30px rgba(114, 81, 181, 0.4);
     }
 
+    /* 遊戲開始頁面遮罩 */
+#start-screen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #f3e8ff 0%, #fce7f3 50%, #e9d5ff 100%);
+  z-index: 40; /* 確保層級高於遊戲畫面與結尾彈窗 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 25px;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
+/* 隱藏時的淡出狀態 */
+#start-screen.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.start-content {
+  background: rgba(255, 255, 255, 0.85);
+  border: 3px solid var(--primary-lavender);
+  border-radius: 24px;
+  padding: 35px 25px;
+  box-shadow: 0 10px 30px rgba(114, 81, 181, 0.2);
+  max-width: 340px;
+  width: 100%;
+}
+
+.start-deco {
+  font-size: 36px;
+  margin-bottom: 12px;
+  animation: pulse 2s infinite;
+}
+
+.start-title {
+  font-size: 22px;
+  color: var(--deep-lavender);
+  font-weight: 800;
+  line-height: 1.35;
+  margin-bottom: 14px;
+}
+
+.start-desc {
+  font-size: 13px;
+  color: #5a4b81;
+  line-height: 1.6;
+  margin-bottom: 26px;
+}
+
+#start-btn {
+  padding: 14px 36px;
+  font-size: 16px;
+  font-weight: 800;
+  color: #ffffff;
+  background: linear-gradient(90deg, #9d4edd, #7251b5);
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(157, 78, 221, 0.4);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+#start-btn:active {
+  transform: scale(0.94);
+  box-shadow: 0 2px 8px rgba(157, 78, 221, 0.3);
+}
+    
     /* Header & Progress Bar */
     header {
       padding: 14px 15px;
@@ -265,6 +339,15 @@
 <body>
 
 <div id="game-container">
+  <!-- 遊戲開始頁面 -->
+<div id="start-screen">
+  <div class="start-content">
+    <div class="start-deco">💜🎂🪄✨</div>
+    <h2 class="start-title">Get ready for<br>Seita's birthday party</h2>
+    <p class="start-desc">在房間裡尋找 7 樣派對必備物品，<br>準備好後就打開房門出發吧！</p>
+    <button id="start-btn" onclick="startGame()">START</button>
+  </div>
+</div>
   <header>
     <h1>Get ready for Seita's birthday party</h1>
     <div class="status-bar">
@@ -360,6 +443,23 @@
 </div>
 
 <script>
+ 
+  function startGame() {
+  // 1. 喚醒 Web Audio 音效環境（解決手機瀏覽器首次互動音效限制）
+  if (audioCtx.state === 'suspended') {
+    audioCtx.resume();
+  }
+  
+  // 2. 播放點擊提示音
+  playSound('pop');
+
+  // 3. 淡出並隱藏開始頁面，顯示遊戲主畫面
+  const startScreen = document.getElementById('start-screen');
+  if (startScreen) {
+    startScreen.classList.add('hidden');
+  }
+}
+  
   const totalItems = 7;
   let collectedCount = 0;
   const collectedSet = new Set();
