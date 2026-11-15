@@ -272,8 +272,10 @@
   <div id="room-viewport" id="viewport">
     <div id="room-scene">
 
-<!-- 房門透明點擊熱區（精準置中於 1586px 背景中央） -->
-<div id="door" onclick="tryOpenDoor()" title="door"></div>
+<!-- 房門點擊熱區與圖片容器 -->
+<div id="door" onclick="tryOpenDoor()" title="door">
+  <img id="door-img" src="door_closed.png" alt="diir" class="door-style">
+</div>
       
       <!-- 7 樣散落各處的尋寶物品 -->
       <!-- 1. 漢堡包-->
