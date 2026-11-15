@@ -360,52 +360,59 @@
   const collectedSet = new Set();
 
   // ---------------- 左右滑動 / 拖曳控制邏輯 ----------------
+// ---------------- 左右滑動 / 拖曳控制邏輯 ----------------
   const viewport = document.getElementById('room-viewport');
   const scene = document.getElementById('room-scene');
   
-let isDragging = false;
-let startX = 0;
-let startY = 0;
-let hasMoved = false; // 用來判斷是否有在拖曳
+  let isDragging = false;
+  let startX = 0;
+  let startY = 0;
+  let currentX = 0;
+  let hasMoved = false; // 用來區分「點擊」與「拖曳」
 
-function dragStart(e) {
-  isDragging = true;
-  hasMoved = false;
-  startX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
-  startY = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY;
-}
-
-function dragMove(e) {
-  if (!isDragging) return;
-  const x = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
-  const y = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY;
-  
-  // 如果移動距離超過 5 像素，就視為「拖曳背景」，而不是點擊道具
-  if (Math.abs(x - startX) > 5 || Math.abs(y - startY) > 5) {
-    hasMoved = true;
+  function clamp(val, min, max) {
+    return Math.max(min, Math.min(max, val));
   }
 
-  const diff = x - startX;
-  startX = x;
-  
-  currentX += diff;
-  const limitWidth = Math.max(0, scene.offsetWidth - viewport.offsetWidth);
-  currentX = clamp(currentX, -limitWidth, 0);
+  function dragStart(e) {
+    isDragging = true;
+    hasMoved = false;
+    startX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+    startY = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY;
+  }
 
-  scene.style.transform = `translateX(${currentX}px)`;
-}
+  function dragMove(e) {
+    if (!isDragging) return;
+    const x = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+    const y = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY;
+    
+    // 如果移動距離超過 4 像素，就判定為「正在拖曳背景」
+    if (Math.abs(x - startX) > 4 || Math.abs(y - startY) > 4) {
+      hasMoved = true;
+    }
 
-function dragEnd() {
-  isDragging = false;
-}
+    const diff = x - startX;
+    startX = x;
+    
+    currentX += diff;
+    const limitWidth = Math.max(0, scene.offsetWidth - viewport.offsetWidth);
+    currentX = clamp(currentX, -limitWidth, 0);
 
-  // 綁定事件監聽
+    scene.style.transform = `translateX(${currentX}px)`;
+  }
+
+  function dragEnd() {
+    isDragging = false;
+  }
+
+  // 綁定在 viewport 與 window 上，確保任何地方放開都能正確結束拖曳
   viewport.addEventListener('mousedown', dragStart);
   window.addEventListener('mousemove', dragMove);
   window.addEventListener('mouseup', dragEnd);
 
-  viewport.addEventListener('touchstart', dragStart);
-  window.addEventListener('touchmove', dragMove);
+  viewport.addEventListener('touchstart', dragStart, { passive: true });
+  window.addEventListener('touchmove', dragMove, { passive: true });
+  window.addEventListener('mouseup', dragEnd);
   window.addEventListener('touchend', dragEnd);
 
 
